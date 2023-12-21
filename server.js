@@ -23,12 +23,25 @@ app.use(express.urlencoded({ extended: true })) // body parser this is how we ge
  */
 
 // INDEX - GET render all of the books
+app.get("/books", async (req, res) => {
+    // find all of the books
+    let books = await Book.find({})
+    // render all of the books to index.ejs
+    res.render("index.ejs", {
+        books: books.reverse()
+    })
+   
+})
 
 // NEW - GET for the form to create a new book
+app.get("/books/new", (req, res) => {
+    res.render("new.ejs")
+})
 
 // CREATE - POST
 app.post("/books", async (req, res) => {
-    if (req.body.completed === "on") {
+     try { 
+        if (req.body.completed === "on") {
         // if checked
         req.body.completed = true
     } else {
@@ -37,7 +50,12 @@ app.post("/books", async (req, res) => {
     }
 
     let newBook = await Book.create(req.body)
-    res.send(newBook)
+    res.redirect("/books")
+  
+
+    } catch (err) {
+        res.send(err)
+    }
 })
 
 // SHOW - GET rendering only one book
