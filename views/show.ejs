@@ -5,6 +5,7 @@
     <% console.log(book) %>
     <%- include("./partials/nav.ejs") %>
     <h1>Show Page</h1>
+    <a href="/books/edit/<%= book._id%>">Edit <%= book.title%></a>
     <h1><%= book.title %></h1>
     <h3><%= book.author %></h3>
     <p><%= book.completed ? "Yeah I read that" : "Still on the list" %></p>
